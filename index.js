@@ -5,6 +5,7 @@ const cors = require('cors');
 
 const app = express();
 
+// Conexión BD
 connectionDB();
 
 // Habilitar Cors
