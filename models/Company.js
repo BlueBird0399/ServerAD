@@ -1,13 +1,21 @@
 const mongoose = require('mongoose');
 
-const HeadOfficeSchema = mongoose.Schema({
+const CompanySchema = mongoose.Schema({
+    headOffice: {
+        type: mongoose.Types.ObjectId,
+        ref: 'company'
+    },
     name: {
         type: String,
         require: true
     },
     address: {
         type: String,
-        required: true
+        require: true
+    },
+    contact: {
+        type: String,
+        require: true
     },
     latitude: {
         type: Number,
@@ -19,4 +27,4 @@ const HeadOfficeSchema = mongoose.Schema({
     }
 });
 
-module.exports = mongoose.model('headOffice', HeadOfficeSchema);
+module.exports = mongoose.model('company', CompanySchema);

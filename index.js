@@ -18,11 +18,8 @@ app.use(express.json());
 
 app.use("/api", require("./routes/app.routes"));
 
-// Sucursales
-app.use("/api/branch", require("./routes/BranchRoutes"));
-
-// Matriz
-app.use("/api/headOffice", require("./routes/HeadOfficeRoutes"));
+// Empresa
+app.use("/api/company", require("./routes/CompanyRoutes"));
 
 // Usuarios
 app.use("/api/user", require("./routes/UserRoutes"));

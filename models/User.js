@@ -1,13 +1,14 @@
 const mongoose = require('mongoose');
 
 const UserSchema = mongoose.Schema({
-    branch: {
+    company: {
         type: mongoose.Types.ObjectId,
-        ref: 'branch'
+        ref: 'company'
     },
     email: {
         type: String,
-        require: true
+        require: true,
+        unique: true
     },
     password: {
         type: String,

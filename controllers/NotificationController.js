@@ -2,7 +2,7 @@ const Notification = require('../models/Notification');
 
 exports.getAll = async (req, res) => {
     try {
-        const notifications = await Notification.find().populate('branch');
+        const notifications = await Notification.find().populate('company');
         res.json(notifications);
     }
     catch (error) {
@@ -13,7 +13,7 @@ exports.getAll = async (req, res) => {
 
 exports.getById = async (req, res) => {
     try {
-        const notification = await Notification.findById(req.params.id).populate('category');
+        const notification = await Notification.findById(req.params.id).populate('company');
         res.json(notification);
     } catch (error) {
         console.log(error);
@@ -34,7 +34,7 @@ exports.save = async (req, res) => {
 
 exports.update = async (req, res) => {
     try {
-        let notification = await Notification.findOne(req.params.id);
+        let notification = await Notification.findById(req.params.id);
         if (!notification) {
             res.status(500).json({ error: 'No existe la Notificación' });
         }

@@ -2,7 +2,7 @@ const User = require('../models/User');
 
 exports.getAll = async (req, res) => {
     try {
-        const users = await User.find().populate('branch');
+        const users = await User.find().populate('company');
         res.json(users);
     }
     catch (error) {
@@ -13,7 +13,7 @@ exports.getAll = async (req, res) => {
 
 exports.getById = async (req, res) => {
     try {
-        const user = await User.findById(req.params.id).populate('branch');
+        const user = await User.findById(req.params.id).populate('company');
         res.json(user);
     } catch (error) {
         console.log(error);
@@ -34,7 +34,7 @@ exports.save = async (req, res) => {
 
 exports.update = async (req, res) => {
     try {
-        let user = await User.findOne(req.params.id);
+        let user = await User.findById(req.params.id);
 
         if (!user) {
             res.status(500).json({ error: 'No existe el Usuario' });
