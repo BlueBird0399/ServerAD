@@ -5,6 +5,14 @@ const UserSchema = mongoose.Schema({
         type: mongoose.Types.ObjectId,
         ref: 'company'
     },
+    name: {
+        type: String,
+        require: true
+    },
+    surname: {
+        type: String,
+        require: true
+    },
     email: {
         type: String,
         require: true,
@@ -18,6 +26,6 @@ const UserSchema = mongoose.Schema({
         type: String,
         required: true
     }
-})
+});
 
 module.exports = mongoose.model('user',UserSchema);
