@@ -41,7 +41,7 @@ exports.update = async (req, res) => {
         if (!user) {
             res.status(500).json({ error: 'No existe el Usuario' });
         }
-        user.company = req.body.company;
+        user.company = req.body.company.id;
         user.name = req.body.name;
         user.surname = req.body.surname;
         user.email = req.body.email;
