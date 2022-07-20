@@ -23,7 +23,7 @@ const CompanySchema = mongoose.Schema({
     },
     longitude: {
         type: Number,
-        required: true
+        require: true
     }
 });
 

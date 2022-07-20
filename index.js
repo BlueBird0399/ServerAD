@@ -5,6 +5,9 @@ const cors = require('cors');
 
 const app = express();
 
+const { createServer } = require("http");
+const { Server } = require("socket.io");
+
 // Conexión BD
 connectionDB();
 
@@ -27,7 +30,26 @@ app.use("/api/user", require("./routes/UserRoutes"));
 //Notificaciones
 app.use("/api/notification", require("./routes/NotificationRoutes"));
 
+
+const httpServer = createServer(app);
+const io = new Server(httpServer,{
+    cors:{
+        origin: "http://localhost:3000"
+    }
+});
+app.get('/', (req, res) => {
+    res.sendFile(__dirname + '/index.html');
+});
+app.use('/', express.static('node_modules'));
+
+// Manipular conexion
+// io.on('connection', async function (socket) {
+//     console.log("Connected succesfully to the socket ...");
+// });
+
+
+global.io = io;
 const port = process.env.PORT || 3000;
-app.listen(port, function () {
+httpServer.listen(port, function () {
     console.log("Listo para empezar")
 })

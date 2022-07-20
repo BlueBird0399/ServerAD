@@ -1,4 +1,6 @@
 const Company = require('../models/Company');
+const { io } = require('./socket');
+const { login } = require('./UserController');
 
 exports.getAll = async (req, res) => {
     try {
@@ -23,6 +25,7 @@ exports.getById = async (req, res) => {
 
 exports.save = async (req, res) => {
     try {
+        req.body.headOffice = req.body.headOffice.id;
         let company = new Company(req.body);
         await company.save();
         res.json(company);
@@ -54,12 +57,14 @@ exports.update = async (req, res) => {
 
 exports.delete = async (req, res) => {
     try {
+   
         const company = await Company.findById(req.params.id);
         if (!company) {
             res.status(500).send('No existe la Sucursal');
         }
         await Company.findOneAndRemove({ _id: req.params.id });
-        res.json({ msg: 'Sucursal eliminada' });
+        res.json(true);
+        global.io.emit("alert","aaaaaaaaaaaaaaaaaaaaaaaa");
     } catch (error) {
         console.log(error);
         res.status(500).json({ error: 'Error al eliminar la Sucursal' });

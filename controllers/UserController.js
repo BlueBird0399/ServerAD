@@ -77,8 +77,8 @@ exports.login = async (req, res) => {
             res.status(500).json({ error: 'No se encontró el usuario' });
         }
         bcryptjs.compare(req.body.password, user.password).then((compare) => {
-            if (compare)
-                res.json(user)
+            if (compare){
+                res.json(user)}
             else
                 res.status(500).json({ error: 'Contraseña incorrecta' });
         });
