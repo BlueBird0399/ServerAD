@@ -4,5 +4,5 @@ const router = express.Router();
 
 router.get('/SendNotification', pushNotificationController.SendNotification);
 router.post('/SendNotificationToDevice', pushNotificationController.SendNotificationToDevice);
-
+router.get('/GetDevices', pushNotificationController.getDeviceState);
 module.exports = router;
