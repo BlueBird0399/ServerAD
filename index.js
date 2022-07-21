@@ -30,23 +30,12 @@ app.use("/api/user", require("./routes/UserRoutes"));
 //Notificaciones
 app.use("/api/notification", require("./routes/NotificationRoutes"));
 
-
 const httpServer = createServer(app);
-const io = new Server(httpServer,{
-    cors:{
-        origin: "http://localhost:3000"
-    }
-});
+const io = new Server(httpServer);
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/index.html');
 });
 app.use('/', express.static('node_modules'));
-
-// Manipular conexion
-// io.on('connection', async function (socket) {
-//     console.log("Connected succesfully to the socket ...");
-// });
-
 
 global.io = io;
 const port = process.env.PORT || 3000;

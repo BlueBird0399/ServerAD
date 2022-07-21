@@ -17,6 +17,10 @@ const CompanySchema = mongoose.Schema({
         type: String,
         require: true
     },
+    state: {
+        type: String,
+        require: true
+    },
     latitude: {
         type: Number,
         require: true

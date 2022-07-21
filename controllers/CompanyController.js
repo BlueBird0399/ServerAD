@@ -1,6 +1,4 @@
 const Company = require('../models/Company');
-const { io } = require('./socket');
-const { login } = require('./UserController');
 
 exports.getAll = async (req, res) => {
     try {
@@ -45,6 +43,7 @@ exports.update = async (req, res) => {
         company.name = req.body.name;
         company.address = req.body.address;
         company.contact = req.body.contact;
+        company.state = req.body.state;
         company.latitude = req.body.latitude;
         company.longitude = req.body.longitude;
         company = await Company.findOneAndUpdate({ _id: req.params.id }, company, { new: true });
@@ -64,7 +63,6 @@ exports.delete = async (req, res) => {
         }
         await Company.findOneAndRemove({ _id: req.params.id });
         res.json(true);
-        global.io.emit("alert","aaaaaaaaaaaaaaaaaaaaaaaa");
     } catch (error) {
         console.log(error);
         res.status(500).json({ error: 'Error al eliminar la Sucursal' });
