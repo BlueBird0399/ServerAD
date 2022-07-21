@@ -50,3 +50,16 @@ exports.SendNotificationToDevice = (req, res, next) =>{
         });
     });
 }
+
+exports.getDeviceState = (req, res) =>{
+    const options = {
+        method: 'GET',
+        headers: {Accept: 'text/plain', Authorization: "Basic "+ONE_SIGNAL_CONFIG.API_KEY}
+      };
+    const url = "https://"+ONE_SIGNAL_CONFIG.HOST+"/api/v1/players?app_id="+ ONE_SIGNAL_CONFIG.APP_ID;
+    ///var https = require('https');
+      var result = fetch(url, options)
+    .then(res => res.json())
+    .then(json => res.json(json))
+    .catch(err => console.error('error:' + err));
+}
