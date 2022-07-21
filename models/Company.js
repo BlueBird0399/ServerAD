@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
 
-const BranchSchema = mongoose.Schema({
+const CompanySchema = mongoose.Schema({
     headOffice: {
         type: mongoose.Types.ObjectId,
-        ref: 'heafOfice'
+        ref: 'company'
     },
     name: {
         type: String,
@@ -17,14 +17,18 @@ const BranchSchema = mongoose.Schema({
         type: String,
         require: true
     },
+    state: {
+        type: String,
+        require: true
+    },
     latitude: {
         type: Number,
         require: true
     },
     longitude: {
         type: Number,
-        required: true
+        require: true
     }
 });
 
-module.exports = mongoose.model('branch', BranchSchema);
+module.exports = mongoose.model('company', CompanySchema);

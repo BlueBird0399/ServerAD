@@ -5,6 +5,9 @@ const cors = require('cors');
 
 const app = express();
 
+const { createServer } = require("http");
+const { Server } = require("socket.io");
+
 // Conexión BD
 connectionDB();
 
@@ -18,11 +21,8 @@ app.use(express.json());
 
 app.use("/api", require("./routes/app.routes"));
 
-// Sucursales
-app.use("/api/branch", require("./routes/BranchRoutes"));
-
-// Matriz
-app.use("/api/headOffice", require("./routes/HeadOfficeRoutes"));
+// Empresa
+app.use("/api/company", require("./routes/CompanyRoutes"));
 
 // Usuarios
 app.use("/api/user", require("./routes/UserRoutes"));
@@ -30,7 +30,15 @@ app.use("/api/user", require("./routes/UserRoutes"));
 //Notificaciones
 app.use("/api/notification", require("./routes/NotificationRoutes"));
 
+const httpServer = createServer(app);
+const io = new Server(httpServer);
+app.get('/', (req, res) => {
+    res.sendFile(__dirname + '/index.html');
+});
+app.use('/', express.static('node_modules'));
+
+global.io = io;
 const port = process.env.PORT || 3000;
-app.listen(port, function () {
+httpServer.listen(port, function () {
     console.log("Listo para empezar")
 })

@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
 
 const NotificationSchema = mongoose.Schema({
-    branch: {
+    user: {
         type: mongoose.Types.ObjectId,
-        ref: 'branch'
+        ref: 'user'
     },
     message: {
         type: String,
