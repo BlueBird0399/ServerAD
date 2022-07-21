@@ -1,4 +1,5 @@
 const Notification = require('../models/Notification');
+const Company = require('../models/Company');
 
 exports.getAll = async (req, res) => {
     try {
@@ -23,6 +24,10 @@ exports.getById = async (req, res) => {
 
 exports.save = async (req, res) => {
     try {
+        const company = await Company.findById(req.body.user.company);
+        company.state = "emergency";
+        await Company.findOneAndUpdate({ _id: req.body.user.company }, company, { new: true });
+
         let notification = new Notification(req.body);
         await notification.save();
         res.json(notification);

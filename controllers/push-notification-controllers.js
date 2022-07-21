@@ -1,6 +1,6 @@
 const {ONE_SIGNAL_CONFIG} = require('../config/app.config');
 const pushNotificationService = require('../services/push-notification-services');
-
+const fetch = require('node-fetch');
 exports.SendNotification = (req, res, next) =>{ 
     var message = {
         app_id:ONE_SIGNAL_CONFIG.APP_ID,
