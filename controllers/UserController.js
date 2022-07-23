@@ -76,6 +76,7 @@ exports.login = async (req, res) => {
         if (!user) {
             res.status(500).json({ error: 'No se encontró el usuario' });
         }
+        
         bcryptjs.compare(req.body.password, user.password).then((compare) => {
             if (compare){
                 res.json(user)}

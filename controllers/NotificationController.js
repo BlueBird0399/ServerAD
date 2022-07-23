@@ -31,7 +31,7 @@ exports.save = async (req, res) => {
         let notification = new Notification(req.body);
         await notification.save();
         res.json(notification);
-        global.io.emit("alert",req.body.message);
+        global.io.emit("alert", req.body.message, company.id);
     } catch (error) {
         console.log(error);
         res.status(500).json({ error: 'Error al guardar la Notificación' });
