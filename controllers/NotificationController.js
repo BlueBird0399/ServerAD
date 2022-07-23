@@ -26,7 +26,7 @@ exports.save = async (req, res) => {
     try {
         let notification = new Notification(req.body);
         await notification.save();
-        const User = await User.findById(req.params.user);
+        const User = await User.findById(req.body.user);
         const company = await Company.findById(User.company);
         company.state = "emergency";
         await Company.findOneAndUpdate({ _id: req.body.user.company }, company, { new: true });
