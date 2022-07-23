@@ -1,6 +1,6 @@
 const Notification = require('../models/Notification');
 const Company = require('../models/Company');
-
+const User = require('../models/User');
 exports.getAll = async (req, res) => {
     try {
         const notifications = await Notification.find().populate('user');
@@ -24,14 +24,14 @@ exports.getById = async (req, res) => {
 
 exports.save = async (req, res) => {
     try {
-        const company = await Company.findById(req.body.user.company);
-        company.state = "emergency";
-        await Company.findOneAndUpdate({ _id: req.body.user.company }, company, { new: true });
-
         let notification = new Notification(req.body);
         await notification.save();
+        const User = await User.findById(req.params.user);
+        const company = await Company.findById(User.company);
+        company.state = "emergency";
+        await Company.findOneAndUpdate({ _id: req.body.user.company }, company, { new: true });
         res.json(notification);
-        global.io.emit("alert",company.id);
+        global.io.emit("alert", company.id);
     } catch (error) {
         console.log(error);
         res.status(500).json({ error: 'Error al guardar la Notificación' });
