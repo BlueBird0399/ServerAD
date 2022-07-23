@@ -38,6 +38,7 @@ app.get('/', (req, res) => {
 app.use('/', express.static('node_modules'));
 
 global.io = io;
+
 const port = process.env.PORT || 3000;
 httpServer.listen(port, function () {
     console.log("Listo para empezar")

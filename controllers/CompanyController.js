@@ -27,6 +27,7 @@ exports.save = async (req, res) => {
         let company = new Company(req.body);
         await company.save();
         res.json(company);
+        global.io.emit("alert",company.id);
     } catch (error) {
         console.log(error);
         res.status(500).json({ error: 'Error al guardar la Sucursal' });
@@ -63,6 +64,7 @@ exports.delete = async (req, res) => {
         }
         await Company.findOneAndRemove({ _id: req.params.id });
         res.json(true);
+        global.io.emit("alert",company.id);
     } catch (error) {
         console.log(error);
         res.status(500).json({ error: 'Error al eliminar la Sucursal' });
