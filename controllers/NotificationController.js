@@ -3,7 +3,7 @@ const Company = require('../models/Company');
 const User = require('../models/User');
 exports.getAll = async (req, res) => {
     try {
-        const notifications = await Notification.find().populate('user');
+        const notifications = await Notification.find().populate({path: 'user', populate:{path: 'company', populate:{path:'headOffice'}}});
         res.json(notifications);
     }
     catch (error) {
@@ -14,7 +14,7 @@ exports.getAll = async (req, res) => {
 
 exports.getById = async (req, res) => {
     try {
-        const notification = await Notification.findById(req.params.id).populate('user');
+        const notification = await Notification.findById(req.params.id).populate({path: 'user', populate:{path: 'company'}});
         res.json(notification);
     } catch (error) {
         console.log(error);
@@ -28,11 +28,10 @@ exports.save = async (req, res) => {
         await notification.save();
         const user = await User.findById(req.body.user);
         const company = await Company.findById(user.company);
-        console.log(company);
         company.state = "emergency";
-        await Company.findOneAndUpdate({ _id: req.body.user.company }, company, { new: true });
+        await Company.findOneAndUpdate({ _id: user.company }, company, { new: true });
         res.json(notification);
-        global.io.emit("alert", company.id);
+        global.io.emit("alert",req.body.message, company.id);
     } catch (error) {
         console.log(error);
         res.status(500).json({ error: 'Error al guardar la Notificación' });

@@ -3,8 +3,8 @@ const bcryptjs = require('bcryptjs');
 
 exports.getAll = async (req, res) => {
     try {
-        const users = await User.find().populate('company');
-        res.json(users);
+        const users = await User.find().populate({ path: 'company', populate: { path: 'headOffice' } });
+        res.send(users);
     }
     catch (error) {
         console.log(error);
@@ -14,7 +14,7 @@ exports.getAll = async (req, res) => {
 
 exports.getById = async (req, res) => {
     try {
-        const user = await User.findById(req.params.id).populate('company');
+        const user = await User.findById(req.params.id).populate({ path: 'company', populate: { path: 'headOffice' } });
         res.json(user);
     } catch (error) {
         console.log(error);
@@ -24,6 +24,7 @@ exports.getById = async (req, res) => {
 
 exports.save = async (req, res) => {
     try {
+        req.body.company = req.body.company.id;
         req.body.password = bcryptjs.hashSync(req.body.password, bcryptjs.genSaltSync(12));
         let user = new User(req.body);
         await user.save();
@@ -41,11 +42,11 @@ exports.update = async (req, res) => {
         if (!user) {
             res.status(500).json({ error: 'No existe el Usuario' });
         }
-        user.company = req.body.company.id;
+        user.company = req.body.company;
         user.name = req.body.name;
         user.surname = req.body.surname;
         user.email = req.body.email;
-        user.password = bcryptjs.hashSync(req.body.password, bcryptjs.genSaltSync(12));
+        if(req.body.password != null) user.password = bcryptjs.hashSync(req.body.password, bcryptjs.genSaltSync(12));
         user.user_type = req.body.user_type;
 
         user = await User.findOneAndUpdate({ _id: req.params.id }, user, { new: true });
@@ -72,14 +73,15 @@ exports.delete = async (req, res) => {
 
 exports.login = async (req, res) => {
     try {
-        const user = await User.findOne({ email: req.body.email }).populate('company');
+        const user = await User.findOne({ email: req.body.email }).populate({ path: 'company', populate: { path: 'headOffice' } });
         if (!user) {
             res.status(500).json({ error: 'No se encontró el usuario' });
         }
-        
+
         bcryptjs.compare(req.body.password, user.password).then((compare) => {
-            if (compare){
-                res.json(user)}
+            if (compare) {
+                res.json(user)
+            }
             else
                 res.status(500).json({ error: 'Contraseña incorrecta' });
         });
